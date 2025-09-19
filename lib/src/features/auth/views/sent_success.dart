@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qhcare/src/global/ui/widgets/others/containers.dart';
 
 import '../../../global/ui/ui_barrel.dart';
 import '../../../src_barrel.dart';
@@ -14,27 +15,30 @@ class SendSuccessScreen extends StatelessWidget {
       backgroundColor: AppColors.primaryColor,
       body: Ui.padding(
         child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ScaleAnimWidget(
-                child: Image.asset(
-                  Assets.good,
-                  width: Ui.width(context) - 48,
+          child: CurvedContainer(
+            width: Ui.width(context)-96,
+            padding: EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ScaleAnimWidget(
+                  child: Image.asset(
+                    Assets.good,
+                    width: 80,
+                  ),
                 ),
-              ),
-              AppText.medium("Akẹ́kọ̀ọ́ tuntun, káàbọ̀! 🎉",color: AppColors.white,fontSize: 18),
-              AppText.thin("Your journey into the world of Yoruba wisdom has begun.",color: AppColors.white,alignment: TextAlign.center),
-              
-              Ui.boxHeight(56),
-              AppButton(
-                onPressed: () {
-                  Get.offAllNamed(AppRoutes.dashboard);
-                },
-                color: AppColors.white,
-                text: "Let's Start",
-              )
-            ],
+                AppText.bold("Password Reset Successfully",fontSize: 20),
+                AppText.thin("You have successfully reset your password.",color: AppColors.lightTextColor,alignment: TextAlign.center),
+                
+                Ui.boxHeight(32),
+                AppButton(
+                  onPressed: () {
+                    Get.offAllNamed(AppRoutes.auth);
+                  },
+                  text: "Login",
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -5,7 +5,7 @@ abstract class AppColors {
 
   //Text Colors
   static const Color textColor = Color(0xFF000000);
-  static const Color accentColor = Color(0xFF007B9D);
+  static const Color accentColor = Color(0xFF0C89D2);
   static const Color darkTextColor = Color(0xFF1A1A1A);
   static  const Color lightTextColor = Color(0xFFA1A1A1);
 

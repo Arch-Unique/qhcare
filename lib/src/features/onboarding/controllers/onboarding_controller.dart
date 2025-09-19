@@ -8,9 +8,10 @@ class OnboardingController {
   RxInt currentPage = 0.obs;
 
   final List<OnboardingPage> pages = [
-    OnboardingPage(Assets.st1, "", Assets.ss1),
-    OnboardingPage(Assets.st2, "", Assets.ss2),
-    OnboardingPage(Assets.st3, "", Assets.ss3),
+    OnboardingPage("Smarter Triage in Seconds", "Describe your symptoms and let our AI guide you to the right department -  quickly, safely, and accurately", Assets.ss1,"Get Started","Skip"),
+    OnboardingPage("No More Endless Waiting", "Describe your symptoms and let our AI guide you to the right department -  quickly, safely, and accurately", Assets.ss1,"Continue","Skip"),
+    OnboardingPage("Care that Stays with You", "Describe your symptoms and let our AI guide you to the right department -  quickly, safely, and accurately", Assets.ss1,"Register","Login"),
+
   ];
 
   nextPage() {

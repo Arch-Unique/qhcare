@@ -7,7 +7,8 @@ class AppButton extends StatefulWidget {
   final Widget? child;
   final String? text, icon;
   final bool? disabled;
-  final Color color, borderColor;
+  final Color color;
+  final Color? borderColor;
   final bool isCircle, isWide, hasBorder;
 
   AppButton({
@@ -18,7 +19,7 @@ class AppButton extends StatefulWidget {
     this.disabled,
     this.isWide = true,
     this.isCircle = false,
-    this.borderColor = AppColors.white,
+    this.borderColor,
     this.hasBorder = false,
     this.color = AppColors.primaryColor,
     Key? key,
@@ -99,7 +100,7 @@ class _AppButtonState extends State<AppButton> {
           : RoundedRectangleBorder(
               borderRadius: Ui.circularRadius(32),
               side: widget.hasBorder
-                  ? BorderSide(color: widget.borderColor)
+                  ? BorderSide(color: widget.borderColor!)
                   : BorderSide.none,
             ),
       onPressed: (disabled || widget.onPressed == null)
@@ -138,8 +139,8 @@ class _AppButtonState extends State<AppButton> {
                         AppText.button(
                           widget.text!,
                           alignment: TextAlign.center,
-                          color: widget.hasBorder
-                              ? widget.borderColor
+                          color: widget.borderColor != null
+                              ? widget.borderColor!
                               : widget.color == AppColors.white
                                   ? AppColors.primaryColor
                                   : AppColors.white,

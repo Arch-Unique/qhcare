@@ -41,11 +41,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordScreen> {
             child: SafeArea(
               child: Column(
                 children: [
-                  backAppBar(
-                    title: "Forgot Password",
-                    bgColor: AppColors.transparent,
-                  ),
-                  Ui.boxHeight(24),
+                  // backAppBar(
+                  //   title: "Forgot Password",
+                  //   bgColor: AppColors.transparent,
+                  // ),
+                  Ui.boxHeight(80),
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.all(24),
@@ -61,20 +61,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordScreen> {
                         onChanged: _updateButtonState,
                         child: Column(
                           children: [
-                            Ui.align(
-                              child: AppText.medium(
-                                "Enter your email",
-                                color: AppColors.darkTextColor,
+                            Ui.boxHeight(8),
+                              AppText.bold(
+                                "Forgot Password",
                                 fontSize: 24,
+                                color: AppColors.textColor,
                               ),
-                            ),
-                            Ui.boxHeight(16),
+                              
+                            Ui.boxHeight(8),
                             AppText.thin(
-                              "Enter your email so we can send the code to reset your password.",
+                              "Enter your email address to proceed.",
                             ),
                             Ui.boxHeight(24),
                             CustomTextField(
-                              "Email",
+                              "Enter email address",
+                              label: "Email",
                               controller.textControllers[7],
                               varl: FPL.email,
                             ),
@@ -84,7 +85,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordScreen> {
                                 await controller.onFPPressed();
                               },
                               disabled: isDisabled,
-                              text: "Send Code",
+                              text: "Proceed",
                             ),
                           ],
                         ),

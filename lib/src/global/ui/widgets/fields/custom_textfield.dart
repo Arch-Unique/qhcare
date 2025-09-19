@@ -12,7 +12,7 @@ class CustomTextField extends StatelessWidget {
   final Color col, iconColor, bcol;
   final VoidCallback? onTap, customOnChanged;
   final TextInputAction tia;
-  final dynamic suffix;
+  final dynamic suffix,prefix;
   final bool autofocus, hasBottomPadding;
   final double fs;
   final FontWeight fw;
@@ -38,7 +38,7 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.shdValidate = true,
     this.textAlign = TextAlign.start,
-    this.suffix,
+    this.suffix,this.prefix,
     super.key,
   });
 
@@ -132,7 +132,17 @@ class CustomTextField extends StatelessWidget {
                       ? BoxConstraints(minWidth: 24, minHeight: 24)
                       : null,
                   isDense: suffix != null,
-
+prefixIcon: prefix != null ? Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: AppIcon(
+                            prefix,
+                            color:
+                                // hasTouched
+                                //     ? AppColors.textColor
+                                //     :
+                                iconColor,
+                          ),
+                        ): null,
                   contentPadding: EdgeInsets.symmetric(
                     vertical: 16.0,
                     horizontal: 16,
@@ -242,7 +252,8 @@ class CustomTextField extends StatelessWidget {
       hint,
       controller,
       hasBottomPadding: false,
-
+      prefix: Iconsax.search_normal_outline,
+      iconColor: AppColors.lightTextColor,
       shdValidate: false,
       bcol: AppColors.white,
       col: AppColors.textFieldColor,

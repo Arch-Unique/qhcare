@@ -29,79 +29,76 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText.medium(
-                    "Settings",
-                    fontSize: 12,
-                    color: AppColors.lightTextColor,
+                  AppText.bold(
+                    "Account",
                   ),
                   Ui.boxHeight(12),
                   SettingsItemWidget(
+                    "Edit Profile",
+                    "",
+                    icon: Iconsax.user_outline,
+                    onTap: () {},
+                  ),
+                   SettingsItemWidget(
                     "Language",
                     "",
                     icon: Iconsax.language_square_outline,
                     onTap: () {},
                   ),
+                  
                   SettingsItemWidget(
                     "Notification",
                     "",
                     icon: Iconsax.notification_outline,
-                    onTap: () {},
-                  ),
-                  SettingsItemWidget(
-                    "Dark Mode",
-                    "",
-                    icon: Iconsax.moon_outline,
                     switchValue: true,
                     onSwitchChanged: (v) {},
                   ),
-                  AppDivider(),
-                  AppText.medium(
-                    "Security",
-                    fontSize: 12,
-                    color: AppColors.lightTextColor,
-                  ),
-                  Ui.boxHeight(12),
                   SettingsItemWidget(
-                    "Change Password",
+                    "Security",
                     "",
                     icon: Iconsax.lock_outline,
                     onTap: () {},
                   ),
-                  AppDivider(),
-                  AppText.medium(
-                    "Help Center",
-                    fontSize: 12,
+                  Ui.boxHeight(24),
+                  AppText.bold(
+                    "More",
                     color: AppColors.lightTextColor,
                   ),
                   Ui.boxHeight(12),
                   SettingsItemWidget(
-                    "FAQ",
+                    "Help",
                     "",
-                    icon: Iconsax.message_question_outline,
+                    icon: Icons.help_outline_rounded,
                     onTap: () {},
                   ),
                   SettingsItemWidget(
-                    "About QHcare+",
+                    "Rate & Review",
+                    "",
+                    icon: Iconsax.star_outline,
+                    onTap: () {},
+                  ),
+                  SettingsItemWidget(
+                    "Privacy & Terms",
                     "",
                     icon: Iconsax.info_circle_outline,
                     onTap: () {
                       Get.to(AboutQHcareScreen());
                     },
                   ),
-                  AppDivider(),
-                  SettingsItemWidget(
-                    "Logout Account",
-                    "",
-                    icon: Iconsax.logout_1_outline,
-                    iconColor: AppColors.red,
-                    onTap: () {
-                      Ui.showBottomSheet(
-                        "Are you sure you want to logout ?",
-                        "You will need to login again to access your account",
-                        OnboardingScreen(),
-                      );
-                    },
+                  Ui.boxHeight(24),
+                  Ui.align(
+                    align: Alignment.center,
+                    child: InkWell(
+                      onTap: () {
+                        Ui.showBottomSheet(
+                          "Are you sure you want to logout ?",
+                          "You will need to login again to access your account",
+                          OnboardingScreen(),
+                        );
+                      },
+                      child: AppText.bold("Log Out",fontSize: 12,color:AppColors.red)),
                   ),
+                  
                 ],
               ),
             ),

@@ -485,8 +485,8 @@ class _PageIndicatorState extends State<PageIndicator> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List.generate(3, (i) {
         return CurvedContainer(
-          width: 100,
-          height: 4,
+          width: 34,
+          height: 6,
           color: i == currentIndex ? widget.activeColor : widget.inactiveColor,
         );
       }),
@@ -933,56 +933,52 @@ class UserProfilePic extends StatelessWidget {
         // Get.to(ViewProfPicPage());
       },
       child: CircleAvatar(
-        radius: 24,
-        backgroundColor: AppColors.primaryColor,
-        child: CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: url.isEmpty ? 22 : 23,
-          child: url.isEmpty
-              ? Icon(
-                  Iconsax.profile_circle_outline,
-                  size: 45,
-                  color: AppColors.disabledColor,
-                )
-              : CachedNetworkImage(
-                  imageUrl: url,
-                  width: 46,
-                  height: 46,
-                  imageBuilder: (context, imageProvider) {
-                    return CircleAvatar(
-                      backgroundImage: imageProvider,
-                      radius: 23,
-                    );
-                  },
-                  placeholder: (context, url) {
-                    return TweenAnimationBuilder(
-                      tween: ColorTween(
-                        begin: AppColors.disabledColor,
-                        end: AppColors.primaryColor,
-                      ),
-                      duration: Duration(seconds: 5),
-                      builder: (context, value, child) {
-                        return Center(
-                          child: Icon(
-                            Iconsax.profile_circle_outline,
-                            size: 44,
-                            color: value,
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  errorWidget: (_, __, ___) {
-                    return const Center(
-                      child: Icon(
-                        Iconsax.profile_circle_outline,
-                        size: 44,
-                        color: AppColors.red,
-                      ),
-                    );
-                  },
-                ),
-        ),
+        backgroundColor: Colors.white,
+        radius: url.isEmpty ? 22 : 23,
+        child: url.isEmpty
+            ? Icon(
+                Iconsax.profile_circle_outline,
+                size: 45,
+                color: AppColors.disabledColor,
+              )
+            : CachedNetworkImage(
+                imageUrl: url,
+                width: 46,
+                height: 46,
+                imageBuilder: (context, imageProvider) {
+                  return CircleAvatar(
+                    backgroundImage: imageProvider,
+                    radius: 23,
+                  );
+                },
+                placeholder: (context, url) {
+                  return TweenAnimationBuilder(
+                    tween: ColorTween(
+                      begin: AppColors.disabledColor,
+                      end: AppColors.primaryColor,
+                    ),
+                    duration: Duration(seconds: 5),
+                    builder: (context, value, child) {
+                      return Center(
+                        child: Icon(
+                          Iconsax.profile_circle_outline,
+                          size: 44,
+                          color: value,
+                        ),
+                      );
+                    },
+                  );
+                },
+                errorWidget: (_, __, ___) {
+                  return const Center(
+                    child: Icon(
+                      Iconsax.profile_circle_outline,
+                      size: 44,
+                      color: AppColors.red,
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }

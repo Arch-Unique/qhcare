@@ -1,4 +1,4 @@
 class OnboardingPage {
-  final String title, desc, image;
-  OnboardingPage(this.title, this.desc, this.image);
+  final String title, desc, image,btnAText,btnBText;
+  OnboardingPage(this.title, this.desc, this.image,this.btnAText,this.btnBText);
 }

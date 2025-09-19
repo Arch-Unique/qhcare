@@ -41,12 +41,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(100)),
         boxShadow: [
           BoxShadow(
             color: AppColors.black.withOpacity(0.06),
@@ -110,7 +108,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
 }
 
 class AppHeader extends StatelessWidget {
-  const AppHeader({super.key});
+  const AppHeader(
+      {this.isHeader = true,
+      this.isUpcoming = false,
+      this.isNotUpcoming = false,
+      super.key});
+  final bool isHeader, isNotUpcoming, isUpcoming;
 
   @override
   Widget build(BuildContext context) {
@@ -118,43 +121,122 @@ class AppHeader extends StatelessWidget {
       child: Row(
         children: [
           UserProfilePic(),
-          Ui.boxWidth(24),
+          Ui.boxWidth(8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText.bold(
-                "Hello, Scholar!",
-                color: AppColors.textColor,
+                "Hi, Temitope",
+                color: isHeader ? AppColors.textColor : AppColors.white,
                 fontSize: 16,
               ),
               Ui.boxHeight(4),
               AppText.medium(
-                "Learn Wisdom Daily",
-                color: AppColors.primaryColor,
+                isHeader ? "How is your health?" : "Cardiologist",
+                color: isHeader ? AppColors.lightTextColor : AppColors.white,
                 fontSize: 12,
               ),
             ],
           ),
           Spacer(),
-          CurvedContainer(
-            radius: 32,
-            width: 48,
-            color: AppColors.white,
-            border: Border.all(color: AppColors.borderColor),
-            height: 48,
-            child: Center(
-              child: Icon(
-                Iconsax.notification_outline,
-                color: AppColors.textColor,
-                size: 20,
+          if (isHeader)
+            CurvedContainer(
+              radius: 32,
+              width: 48,
+              color: AppColors.lightTextColor.withOpacity(0.5),
+              height: 48,
+              child: Center(
+                child: Icon(
+                  Iconsax.notification_bold,
+                  color: AppColors.textColor,
+                  size: 20,
+                ),
               ),
+              onPressed: () {
+                // Handle notification button press
+              },
             ),
-            onPressed: () {
-              // Handle notification button press
-            },
-          ),
+          if (isUpcoming)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 12,
+                  backgroundColor: AppColors.white,
+                  child: AppIcon(
+                    Iconsax.video_outline,
+                    size: 16,
+                  ),
+                ),
+                Ui.boxWidth(8),
+                CircleAvatar(
+                  radius: 12,
+                  backgroundColor: AppColors.white,
+                  child: AppIcon(
+                    Iconsax.call_outline,
+                    size: 16,
+                  ),
+                )
+              ],
+            )
         ],
       ),
+    );
+  }
+}
+
+class TitleSeeAll extends StatelessWidget {
+  const TitleSeeAll(this.title, {super.key});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        AppText.bold(title),
+        AppText.bold("See All", fontSize: 14, color: AppColors.primaryColor)
+      ],
+    );
+  }
+}
+
+class CircleIcon extends StatelessWidget {
+  const CircleIcon(this.icon,{this.vb,super.key});
+  final dynamic icon;
+  final VoidCallback? vb;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: vb,
+      child: CircleAvatar(
+        backgroundColor: AppColors.lightTextColor
+        .withOpacity(0.3),
+        radius: 24,
+        child: AppIcon(icon),
+      ),
+    );
+  }
+}
+
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar(this.title,{this.action,super.key});
+  final String title;
+  final Widget? action;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CircleIcon(Icons.chevron_left,vb: (){
+          Get.back();
+        }),
+        AppText.bold(title),
+        if(action != null)
+        action!
+      ],
     );
   }
 }
@@ -557,8 +639,8 @@ class QuizWidget extends StatelessWidget {
                       qNo.value++;
                     } else {
                       //submit
-                      final f = await Get.find<DashboardController>()
-                          .submitQuiz(qr);
+                      final f =
+                          await Get.find<DashboardController>().submitQuiz(qr);
                       Get.back();
                       Get.dialog(
                         AlertDialog(
@@ -598,6 +680,77 @@ class QuizWidget extends StatelessWidget {
   }
 }
 
+class DoctorInfo extends StatelessWidget {
+  const DoctorInfo(this.isAppoint, {super.key});
+  final bool isAppoint;
+
+  @override
+  Widget build(BuildContext context) {
+    final sched = CurvedContainer(
+      color: AppColors.accentColor.withOpacity(0.08),
+      padding: EdgeInsets.all(4),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppText.thin("Scheduled ",color: AppColors.accentColor,fontSize: 10),
+          AppIcon(Icons.circle,size: 16,),
+          AppText.thin(" 8:30 - 10:00 AM ",fontSize: 10),
+        ],
+      ),
+    );
+    final rate  = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+      AppIcon(Icons.star,color: Colors.yellow,),
+      AppText.thin(" 4.0 ",fontSize: 10),
+      AppText.thin("(192 Reviews) ",color: AppColors.accentColor,fontSize: 10),
+      ],
+    );
+    final info = Row(
+      children: [
+        SizedBox(
+          width: isAppoint ? 60 : 80,
+            height: isAppoint ? 60 : 80,
+          child: CurvedImage(
+            "",
+            w: isAppoint ? 60 : 80,
+            h: isAppoint ? 60 : 80,
+            radius: isAppoint ? 45 : 8,
+          ),
+        ),
+        Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppText.medium("Dr. Drogba Mayowa", fontSize: 14),
+            Ui.boxHeight(4),
+            AppText.thin(
+                isAppoint
+                    ? "General Medicine"
+                    : "Cardiologist at Healthylife Hospital",
+                fontSize: 12,color: AppColors.lightTextColor),
+                Ui.boxHeight(4),
+                isAppoint ?  sched : rate
+
+          ],
+        ))
+      ],
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: isAppoint
+          ? info
+          : CurvedContainer(
+              color: AppColors.transparent,
+              border: Border.all(color: AppColors.lightTextColor),
+              padding: EdgeInsets.all(16),
+              child: info,
+            ),
+    );
+  }
+}
+
 class SettingsItemWidget extends StatelessWidget {
   SettingsItemWidget(
     this.title,
@@ -606,7 +759,7 @@ class SettingsItemWidget extends StatelessWidget {
     this.onSwitchChanged,
     this.switchValue = false,
     this.icon,
-    this.iconColor = AppColors.lightTextColor,
+    this.iconColor = AppColors.textColor,
     super.key,
   });
   final String title, desc;

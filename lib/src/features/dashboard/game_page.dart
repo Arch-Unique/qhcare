@@ -14,24 +14,55 @@ class GamePage extends StatelessWidget {
     return  SingleChildScrollView(
       child: Column(
         children: [
+
           Ui.padding(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppHeader(),
+                CustomAppBar("General Doctor",action: CircleIcon(Icons.search),),
                 Ui.boxHeight(24),
-                CustomTextField.search(
-                    "Search", TextEditingController(), () {}),
-                Ui.boxHeight(24),
+                TitleSeeAll("Nearby Doctor"),
+                Ui.boxHeight(12),
+                ...List.generate(10, (i){
+                  return DoctorInfo(false);
+                })
                 
               ],
             ),
           ),
-
-          QuizInfoWidget(),
-
-        
         ],
+      ),
+    );
+  }
+}
+
+class DoctorsPage extends StatelessWidget {
+  const DoctorsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+      
+            Ui.padding(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomAppBar("General Doctor",action: CircleIcon(Icons.search),),
+                  Ui.boxHeight(24),
+                  TitleSeeAll("Nearby Doctor"),
+                  Ui.boxHeight(12),
+                  ...List.generate(10, (i){
+                    return DoctorInfo(false);
+                  })
+                  
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

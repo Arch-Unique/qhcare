@@ -13,6 +13,7 @@ class CurvedContainer extends StatefulWidget {
   final String? image;
   final Color color;
   final Border? border;
+  final BorderRadius? borderRadius;
   final bool shouldClip;
   final VoidCallback? onPressed;
   final EdgeInsets? margin, padding;
@@ -25,9 +26,10 @@ class CurvedContainer extends StatefulWidget {
     this.margin,
     this.padding,
     this.border,
+    this.borderRadius,
     this.image,
     this.shouldClip = true,
-    this.color = AppColors.textFieldColorOld,
+    this.color = AppColors.white,
     super.key,
   });
 
@@ -102,7 +104,7 @@ class _CurvedContainerState extends State<CurvedContainer>
           clipBehavior: widget.shouldClip ? Clip.hardEdge : Clip.none,
           padding: widget.padding,
           decoration: BoxDecoration(
-            borderRadius: Ui.circularRadius(widget.radius),
+            borderRadius: widget.borderRadius ?? Ui.circularRadius(widget.radius),
             color: widget.color,
             border: widget.border,
             image: widget.image == null
