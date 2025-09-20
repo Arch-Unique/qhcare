@@ -14,7 +14,7 @@ abstract class Assets {
   static const String ss3 = "assets/images/o3.png";
 
   static const String bg1 = "assets/images/bg1.png";
-  static const String bg2 = "assets/images/bg2.png";
+  static const String bg2 = "assets/images/bg1.png";
 
   static const String mail = "assets/images/mail.png";
   static const String phone = "assets/images/phone.png";
@@ -26,5 +26,9 @@ abstract class Assets {
   static const String good = "assets/images/good.png";
   static const String guard = "assets/images/guard.png";
 
-  
+  static const String defHealth = "assets/images/defhealth.png";
+  static const String defDoctor = "assets/images/defdoctor.png";
+  static const String aichat = "assets/images/aichat.png";
+  static const String alert = "assets/images/alert.png";
+  static const String aiicon = "assets/images/ai.svg";
 }

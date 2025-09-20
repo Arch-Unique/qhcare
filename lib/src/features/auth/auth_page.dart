@@ -41,14 +41,20 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: AppColors.primaryColor,
       body: Stack(
         children: [
-          Image.asset(
-            Assets.bg2,
-            fit: BoxFit.cover,
-            height: Ui.height(context),
-            width: Ui.width(context),
+          Opacity(
+            opacity: 0.2,
+            child: Image.asset(
+              Assets.bg2,
+              // fit: BoxFit.,
+              fit: BoxFit.fitWidth,
+              alignment: AlignmentDirectional.topCenter,
+              
+              height: Ui.height(context),
+              width: Ui.width(context),
+            ),
           ),
           SizedBox(
             height: Ui.height(context),
@@ -62,26 +68,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     // Ui.align(
                     //   child: AppText.thin(controller.currentAuthMode.value.desc),
                     // ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0,
-                        vertical: 24,
-                      ),
-                      child: Row(
-                        children: [
-                          UniversalImage(Assets.logo, width: 24, height: 24),
-                          Ui.boxWidth(8),
-                          AppText.medium(
-                            "QHcare+",
-                            fontSize: 14,
-                            color: AppColors.textColor,
-                          ),
-                        ],
-                      ),
-                    ),
+                   
                     
 
-                    Ui.boxHeight(24),
+                    Ui.boxHeight(64),
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 24),

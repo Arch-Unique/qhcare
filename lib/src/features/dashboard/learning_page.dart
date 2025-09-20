@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qhcare/src/global/ui/ui_barrel.dart';
 import 'package:qhcare/src/global/ui/widgets/fields/custom_textfield.dart';
+import 'package:qhcare/src/global/ui/widgets/others/containers.dart';
 import 'package:qhcare/src/src_barrel.dart';
 
 class LearningPage extends StatelessWidget {
@@ -15,15 +16,37 @@ class LearningPage extends StatelessWidget {
         children: [
           AppText.bold("Chats"),
           Ui.boxHeight(16),
-          CustomTextField.search("Search chats and messages", TextEditingController(),(){}),
+          CustomTextField.search(
+              "Search chats and messages", TextEditingController(), () {}),
           Ui.boxHeight(16),
-          
-          ...List.generate(2, (i){
-            return ListTile(
-              leading: CircleAvatar(radius: 24,),
-              title: AppText.medium("Dr. Drogba Mayowa"),
-              subtitle: AppText.thin("Thank you for the time",fontSize: 12,color: AppColors.lightTextColor),
-              trailing: AppText.thin("20 mins ago",fontSize: 10,color: AppColors.lightTextColor),
+          ...List.generate(2, (i) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                children: [
+                  CurvedImage(
+                    Assets.defDoctor,
+                    h: 48,
+                    w: 48,
+                    radius: 48,
+                    fit: BoxFit.cover,
+                  ),
+                  Ui.boxWidth(16),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText.medium("Dr. Drogba Mayowa", fontSize: 14),
+                        AppText.thin("Thank you for the time",
+                            fontSize: 12, color: AppColors.lightTextColor),
+                      ],
+                    ),
+                  ),
+                  AppText.thin("20 mins ago",fontSize: 10,color: AppColors.lightTextColor),
+                       
+                ],
+              ),
             );
           })
         ],

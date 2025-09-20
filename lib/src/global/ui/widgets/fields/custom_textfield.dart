@@ -12,7 +12,7 @@ class CustomTextField extends StatelessWidget {
   final Color col, iconColor, bcol;
   final VoidCallback? onTap, customOnChanged;
   final TextInputAction tia;
-  final dynamic suffix,prefix;
+  final dynamic suffix,prefix,prefixWidget,suffixWidget;
   final bool autofocus, hasBottomPadding;
   final double fs;
   final FontWeight fw;
@@ -32,6 +32,7 @@ class CustomTextField extends StatelessWidget {
     this.bcol = AppColors.textFieldColor,
     this.tia = TextInputAction.next,
     this.oldPass,
+    this.prefixWidget,this.suffixWidget,
     this.onTap,
     this.autofocus = false,
     this.customOnChanged,
@@ -132,7 +133,7 @@ class CustomTextField extends StatelessWidget {
                       ? BoxConstraints(minWidth: 24, minHeight: 24)
                       : null,
                   isDense: suffix != null,
-prefixIcon: prefix != null ? Padding(
+prefixIcon: prefixWidget ?? ( prefix != null ? Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: AppIcon(
                             prefix,
@@ -142,12 +143,12 @@ prefixIcon: prefix != null ? Padding(
                                 //     :
                                 iconColor,
                           ),
-                        ): null,
+                        ): null),
                   contentPadding: EdgeInsets.symmetric(
                     vertical: 16.0,
                     horizontal: 16,
                   ),
-                  suffixIcon: suffix != null
+                  suffixIcon: suffixWidget ?? ( suffix != null
                       ? Padding(
                           padding: const EdgeInsets.only(right: 16.0),
                           child: AppIcon(
@@ -177,7 +178,7 @@ prefixIcon: prefix != null ? Padding(
                                 AppColors.disabledColor,
                           ),
                         )
-                      : null,
+                      : null),
                   hintText: hint,
                   hintStyle: TextStyle(
                     fontSize: fs,

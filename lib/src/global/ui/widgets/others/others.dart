@@ -196,15 +196,14 @@ class CirclePaint extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
 
-    paint.shader =
-        SweepGradient(
-          colors: [secondaryColor, primaryColor],
-          tileMode: TileMode.repeated,
-          startAngle: _degreeToRad(270),
-          endAngle: _degreeToRad(270 + 360.0),
-        ).createShader(
-          Rect.fromCircle(center: Offset(centerPoint, centerPoint), radius: 0),
-        );
+    paint.shader = SweepGradient(
+      colors: [secondaryColor, primaryColor],
+      tileMode: TileMode.repeated,
+      startAngle: _degreeToRad(270),
+      endAngle: _degreeToRad(270 + 360.0),
+    ).createShader(
+      Rect.fromCircle(center: Offset(centerPoint, centerPoint), radius: 0),
+    );
     // 1
     var scapSize = strokeWidth * 0.70;
     double scapToDegree = scapSize / centerPoint;
@@ -253,13 +252,13 @@ class _ScaleAnimWidgetState extends State<ScaleAnimWidget>
   @override
   void initState() {
     _animationController = AnimationController(vsync: this, duration: widget.d);
-    _animation =
-        Tween<double>(
-          begin: widget.start,
-          end: widget.end,
-        ).animate(_animationController)..addListener(() {
-          setState(() {});
-        });
+    _animation = Tween<double>(
+      begin: widget.start,
+      end: widget.end,
+    ).animate(_animationController)
+      ..addListener(() {
+        setState(() {});
+      });
     _animationController.forward();
     super.initState();
   }
@@ -361,7 +360,7 @@ class _FadeAnimWidgetState extends State<FadeAnimWidget> {
 class SplashAnimWidget extends StatefulWidget {
   final Widget? childA, childB;
   const SplashAnimWidget({this.childA, this.childB, Key? key})
-    : super(key: key);
+      : super(key: key);
 
   @override
   State<SplashAnimWidget> createState() => _SplashAnimWidgetState();
@@ -923,11 +922,20 @@ class ShimmerWidget extends StatelessWidget {
 }
 
 class UserProfilePic extends StatelessWidget {
-  const UserProfilePic({this.url = "", super.key});
+  const UserProfilePic({this.url = Assets.defDoctor, super.key});
   final String url;
 
   @override
   Widget build(BuildContext context) {
+    if (url.startsWith("asset")) {
+      return CurvedImage(
+        url,
+        w: 48,
+        h: 48,
+        radius: 48,
+        fit: BoxFit.cover,
+      );
+    }
     return GestureDetector(
       onTap: () {
         // Get.to(ViewProfPicPage());
@@ -1020,8 +1028,8 @@ class AppIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return asset is String
         ? asset.endsWith(".svg")
-              ? SvgIcon(asset, size: size, color: color)
-              : UniversalImage(asset, width: 24, height: 24)
+            ? SvgIcon(asset, size: size, color: color)
+            : UniversalImage(asset, width: 24, height: 24)
         : Icon(asset, size: size, color: color);
   }
 }

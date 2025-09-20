@@ -21,18 +21,22 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        backAppBar(hasBack: false, title: "Profile"),
-        AppDivider(),
+       
         Expanded(
           child: SingleChildScrollView(
             child: Ui.padding(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText.bold(
-                    "Account",
+                   AppText.medium(
+                    "Settings",
+                    
                   ),
-                  Ui.boxHeight(12),
+                  Ui.boxHeight(24),
+                  AppText.medium(
+                    "Account",
+                    fontSize: 18
+                  ),
                   SettingsItemWidget(
                     "Edit Profile",
                     "",
@@ -60,9 +64,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: () {},
                   ),
                   Ui.boxHeight(24),
-                  AppText.bold(
+                  AppText.medium(
                     "More",
                     color: AppColors.lightTextColor,
+                    fontSize: 18
                   ),
                   Ui.boxHeight(12),
                   SettingsItemWidget(
@@ -98,6 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                       child: AppText.bold("Log Out",fontSize: 12,color:AppColors.red)),
                   ),
+                  Ui.boxHeight(24),
                   
                 ],
               ),

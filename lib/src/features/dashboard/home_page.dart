@@ -75,18 +75,21 @@ class TipsWidget extends StatelessWidget {
         ...List.generate(3, (i) {
           return CurvedContainer(
             color: AppColors.lightTextColor.withOpacity(0.1),
-            padding: EdgeInsets.all(24),
-            height: 132,
+            padding: EdgeInsets.all(12),
+            // height: 132,
             width: Ui.width(context)-48,
+            radius: 18,
             margin: EdgeInsets.symmetric(vertical: 6,horizontal: 0),
             child: Row(
               children: [
                 SizedBox(
                   width: 84,
+                  height: 84,
                   child: CurvedImage(
-                    "",
+                  Assets.defHealth,
                     w: 84,
                     h: 84,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Ui.boxWidth(8),
@@ -98,7 +101,7 @@ class TipsWidget extends StatelessWidget {
                       AppText.bold("Benefits of sleeping early"),
                       Ui.boxHeight(8),
                       AppText.thin(
-                          "Here are 10 reasos why you need to sleep early at night",fontSize: 14)
+                          "Here are 10 reasons why you need to sleep early at night",fontSize: 12,maxlines: 2)
                     ],
                   ),
                 )
@@ -270,6 +273,7 @@ class CategoryRowWidget extends StatelessWidget {
           width: (Ui.width(context) - 64) / 3,
           height: 120,
           padding: EdgeInsets.all(12),
+          radius: 8,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

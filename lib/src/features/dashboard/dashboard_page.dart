@@ -30,15 +30,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavBar(),
+    return Scaffold(      
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      body: SizedBox(
-              height: Ui.height(context),
-              child: Obx(() {
-                return screens[controller.currentIndex.value];
-              }),
-            ),
+      body: Stack(
+        children: [
+          SizedBox(
+                  height: Ui.height(context),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Obx(() {
+                          return screens[controller.currentIndex.value];
+                        }),
+                      ),
+                      Ui.boxHeight(84)
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: BottomNavBar()),
+        ],
+      ),
     );
   }
 }

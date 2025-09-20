@@ -30,7 +30,7 @@ class OnboardingScreen extends StatelessWidget {
                     onPageChanged: controller.onChangePage,
                     itemBuilder: (_, i) {
                       return Image.asset(
-                controller.pages[controller.currentPage.value].image,
+                controller.pages[i].image,
                 fit: BoxFit.cover,
                 height: (Ui.height(context) / 2) + 32,
                 width: Ui.width(context),
