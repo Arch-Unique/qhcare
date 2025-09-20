@@ -13,7 +13,7 @@ class DashboardController extends GetxController {
   final Dio dio = Dio();
   
   // Replace with your OpenRouter API key
-  final String apiKey = "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";
+  final String apiKey = String.fromEnvironment("OPENROUTER_KEY");
   final String apiUrl = "https://openrouter.ai/api/v1/chat/completions";
 
 // Updated sendMessage function in ChatController
