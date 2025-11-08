@@ -36,15 +36,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           SizedBox(
                   height: Ui.height(context),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Obx(() {
-                          return screens[controller.currentIndex.value];
-                        }),
-                      ),
-                      Ui.boxHeight(84)
-                    ],
+                  child: SafeArea(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Obx(() {
+                            return screens[controller.currentIndex.value];
+                          }),
+                        ),
+                        Ui.boxHeight(84)
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(

@@ -1,0 +1,16 @@
+{
+  "name": "doctor-booking-backend",
+  "module": "index.js",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "hono": "^4.0.0",
+    "openai": "^6.8.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

@@ -8,22 +8,40 @@ import '../../../global/model/user.dart';
 class AppRepo extends GetxController {
   final apiService = Get.find<DioApiService>();
 
-  Future<Proverb?> getDailyProverb() async {
-  //     const completion = await openai.chat.completions.create({
-  //   model: "google/gemma-3-27b-it:free",
-  //   messages: [
-  //     { role: "system", content: systemPrompt },
-  //     { role: "user", content: userPrompt },
-  //   ],
-  //   temperature: temperature,
-  //   top_p: 0.9,
-  // });
+  Future<bool> bookDoctor(Booking booking) async {
+    try {
+      final response = await apiService.post(
+        "/api/bookings",
+        data: booking.toJson(),
+      );
 
-  // return completion.choices[0].message.content;
-    final gt = await apiService.get(AppUrls.dailyProverb);
-    if (gt.statusCode!.isSuccess()) {
-      return Proverb.fromJson(gt.data);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
     }
-    return null;
+  }
+
+    Future<String> chatAI(String msg) async {
+    try {
+      final response = await apiService.post(
+        "/api/ai",
+        data: {
+          "userPrompt": msg,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['data'];
+      } else {
+        return "";
+      }
+    } catch (e) {
+      return "";
+    }
   }
 }

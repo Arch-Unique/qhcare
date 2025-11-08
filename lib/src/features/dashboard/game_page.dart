@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:qhcare/src/features/dashboard/controllers/dashboard_controller.dart';
+import 'package:qhcare/src/global/model/user.dart';
 import 'package:qhcare/src/global/ui/widgets/others/containers.dart';
 
 import '../../app/app_barrel.dart';
@@ -119,6 +121,7 @@ class DoctorDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<DashboardController>();
     final curDay = 0.obs;
     final curTime = 0.obs;
     final days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -137,12 +140,14 @@ class DoctorDetailPage extends StatelessWidget {
         padding: EdgeInsets.all(24),
         child: Column(
           children: [
-            CustomAppBar(
-              "Doctor Details",
-              action: CircleIcon(
-                Iconsax.heart_outline,
-                bc: AppColors.accentColor.withOpacity(0.1),
-                ic: AppColors.accentColor,
+            SafeArea(
+              child: CustomAppBar(
+                "Doctor Details",
+                action: CircleIcon(
+                  Iconsax.heart_outline,
+                  bc: AppColors.accentColor.withOpacity(0.1),
+                  ic: AppColors.accentColor,
+                ),
               ),
             ),
             Ui.boxHeight(24),
@@ -169,70 +174,112 @@ class DoctorDetailPage extends StatelessWidget {
                 valueWidget: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(days.length, (i) {
-                    return Obx(
-                       () {
-                        return CurvedContainer(
-                          color: curDay.value == i
-                              ? AppColors.primaryColor
-                              : AppColors.accentColor.withOpacity(0.08),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                          radius: 100,
-                          child: Column(
-                            children: [
-                              AppText.thin(days[i],
-                                  fontSize: 12, color: curDay.value == i ? AppColors.white:AppColors.lightTextColor),
-                              CircleAvatar(
-                                radius: 12,
-                                backgroundColor: curDay.value == i
+                    return Obx(() {
+                      return CurvedContainer(
+                        color: curDay.value == i
+                            ? AppColors.primaryColor
+                            : AppColors.accentColor.withOpacity(0.08),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                        radius: 100,
+                        child: Column(
+                          children: [
+                            AppText.thin(days[i],
+                                fontSize: 12,
+                                color: curDay.value == i
                                     ? AppColors.white
-                                    : AppColors.transparent,
-                                child: AppText.thin("${14 + i}",
-                                    fontSize: 12,
-                                    color: curDay.value == i
-                                        ? AppColors.primaryColor
-                                        : AppColors.lightTextColor),
-                              )
-                            ],
-                          ),
-                          onPressed: () {
-                            curDay.value = i;
-                          },
-                        );
-                      }
-                    );
+                                    : AppColors.lightTextColor),
+                            CircleAvatar(
+                              radius: 12,
+                              backgroundColor: curDay.value == i
+                                  ? AppColors.white
+                                  : AppColors.transparent,
+                              child: AppText.thin("${14 + i}",
+                                  fontSize: 12,
+                                  color: curDay.value == i
+                                      ? AppColors.primaryColor
+                                      : AppColors.lightTextColor),
+                            )
+                          ],
+                        ),
+                        onPressed: () {
+                          curDay.value = i;
+                        },
+                      );
+                    });
                   }),
                 )),
-            TitleValueWidget("Select Time", "",valueWidget: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: List.generate(times.length, (i) {
-                    return Obx(
-                       () {
-                        return CurvedContainer(
-                          width: (Ui.width(context)-72)/4,
-                          color: curTime.value == i
-                              ? AppColors.primaryColor
-                              : AppColors.accentColor.withOpacity(0.08),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                          radius: 100,
-                          child:Center(
-                            child: AppText.thin(times[i],
-                                    fontSize: 12, color: curTime.value == i ? AppColors.white:AppColors.lightTextColor),
-                          ),
-                              
-                          onPressed: () {
-                            curTime.value = i;
-                          },
-                        );
-                      }
+            TitleValueWidget(
+              "Select Time",
+              "",
+              valueWidget: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: List.generate(times.length, (i) {
+                  return Obx(() {
+                    return CurvedContainer(
+                      width: (Ui.width(context) - 72) / 4,
+                      color: curTime.value == i
+                          ? AppColors.primaryColor
+                          : AppColors.accentColor.withOpacity(0.08),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                      radius: 100,
+                      child: Center(
+                        child: AppText.thin(times[i],
+                            fontSize: 12,
+                            color: curTime.value == i
+                                ? AppColors.white
+                                : AppColors.lightTextColor),
+                      ),
+                      onPressed: () {
+                        curTime.value = i;
+                      },
                     );
-                  }),
-                ),),
-                Ui.boxHeight(16),
+                  });
+                }),
+              ),
+            ),
+            Ui.boxHeight(16),
             AppButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.dialog(AlertDialog(
+                  backgroundColor: AppColors.white,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AppText.bold("Confirm Appointment",
+                          alignment: TextAlign.center, fontSize: 20),
+                      Ui.boxHeight(8),
+                      AppText.thin(
+                          "Are you sure you want to book an appointment with the doctor for ${days[curDay.value]} at ${times[curTime.value]}?",
+                          fontSize: 12,
+                          alignment: TextAlign.center,
+                          color: AppColors.lightTextColor),
+                      Ui.boxHeight(8),
+                      AppButton(
+                        onPressed: () async {
+                          controller.isUpcoming.value = true;
+                          controller.myBookings.add(Booking(
+                            day: days[curDay.value],
+                            time: times[curTime.value],
+                            date: 14 + curDay.value,
+                          ));
+                          await controller.appRepo
+                              .bookDoctor(controller.myBookings.last);
+                          Get.to(SuccessScreen("Appointment Confirmed",
+                              "Your appointment with the doctor is successfully booked for ${days[curDay.value]} at ${times[curTime.value]}."));
+                        },
+                        text: "Confirm",
+                      ),
+                      Ui.boxHeight(8),
+                      AppButton.outline(() {
+                        Get.back();
+                      }, "Cancel")
+                    ],
+                  ),
+                ));
+              },
               text: "Book Appointment",
             )
           ],

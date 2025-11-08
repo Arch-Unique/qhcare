@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:qhcare/src/features/dashboard/dashboard_page.dart';
 import 'package:qhcare/src/features/dashboard/game_page.dart';
 import 'package:qhcare/src/global/ui/ui_barrel.dart';
 import 'package:qhcare/src/global/ui/widgets/fields/custom_dropdown.dart';
@@ -130,7 +131,7 @@ class AppHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText.bold(
-                "Hi, Temitope",
+                isHeader ? "Hi, Temitope" : "Dr Mayowa",
                 color: isHeader ? AppColors.textColor : AppColors.white,
                 fontSize: 16,
               ),
@@ -196,7 +197,8 @@ class TitleSeeAll extends StatelessWidget {
 }
 
 class CircleIcon extends StatelessWidget {
-  const CircleIcon(this.icon, {this.vb, this.ic, this.bc,this.radius=24, super.key});
+  const CircleIcon(this.icon,
+      {this.vb, this.ic, this.bc, this.radius = 24, super.key});
   final dynamic icon;
   final VoidCallback? vb;
   final Color? ic, bc;
@@ -420,5 +422,58 @@ class SettingsItemWidget extends StatelessWidget {
       ),
     );
     return InkWell(onTap: onTap, child: pp);
+  }
+}
+
+class SuccessScreen extends StatelessWidget {
+  const SuccessScreen(this.title, this.desc, {super.key});
+  final String title, desc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.primaryColor,
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+        Opacity(
+          opacity: 0.2,
+          child: Image.asset(
+            Assets.bg2,
+            // fit: BoxFit.,
+            fit: BoxFit.fitWidth,
+            alignment: AlignmentDirectional.topCenter,
+            repeat: ImageRepeat.repeatY,
+
+            height: Ui.height(context),
+            width: Ui.width(context),
+          ),
+        ),
+        CurvedContainer(
+          margin: EdgeInsets.all(24),
+          padding: EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppIcon(Assets.good),
+              AppText.bold(title, fontSize: 20),
+              Ui.boxHeight(8),
+              AppText.thin(desc,
+                  fontSize: 12,
+                  alignment: TextAlign.center,
+                  color: AppColors.lightTextColor),
+              Ui.boxHeight(32),
+              AppButton(
+                onPressed: () {
+                  Get.offAll(DashboardScreen());
+                },
+                text: "Go to homepage",
+              ),
+              Ui.boxHeight(8),
+            ],
+          ),
+        )
+      ]),
+    );
   }
 }

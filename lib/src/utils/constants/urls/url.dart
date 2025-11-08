@@ -1,6 +1,6 @@
 abstract class AppUrls {
   static const String baseURL =
-      'https://yoruba-proverb-quiz-service.onrender.com';
+      'http://localhost:3000';
 
   //auth repo
   static const String login = "/login";

@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:qhcare/src/features/dashboard/controllers/dashboard_controller.dart';
+import 'package:qhcare/src/features/dashboard/game_page.dart';
 import 'package:qhcare/src/features/dashboard/shared.dart';
 
 import '../../global/ui/ui_barrel.dart';
@@ -34,14 +34,14 @@ class ChatMessage {
 
 class CTAChatPage extends StatelessWidget {
   CTAChatPage({super.key});
-  
+
   final suggestions = [
     "Not Feeling well",
     "Report an Emergency",
     "Follow up appointment",
     "Others"
   ];
-  
+
   final RxInt curAsk = 0.obs;
   final tec = TextEditingController();
   final chatController = Get.find<DashboardController>();
@@ -51,29 +51,31 @@ class CTAChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomSheet: chatBox(),
-      body: Column(
-        children: [
-          Ui.padding(
-            child: CustomAppBar(""),
-          ),
-          Expanded(
-            child: Obx(() {
-              return chatController.messages.isEmpty
-                  ? SingleChildScrollView(
-                      child: Ui.padding(
-                        child: Column(
-                          children: [
-                            Ui.boxHeight(40),
-                            ...emptyChat(),
-                            Ui.boxHeight(100), // Space for bottom sheet
-                          ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Ui.padding(
+              child: CustomAppBar(""),
+            ),
+            Expanded(
+              child: Obx(() {
+                return chatController.messages.isEmpty
+                    ? SingleChildScrollView(
+                        child: Ui.padding(
+                          child: Column(
+                            children: [
+                              Ui.boxHeight(40),
+                              ...emptyChat(),
+                              Ui.boxHeight(100), // Space for bottom sheet
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  : chatView();
-            }),
-          ),
-        ],
+                      )
+                    : chatView();
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -104,9 +106,10 @@ class CTAChatPage extends StatelessWidget {
             top: 16,
             bottom: 100, // Space for bottom sheet
           ),
-          itemCount: snapshot.data!.length,
+          itemCount: snapshot.data?.length ?? chatController.messages.length,
           itemBuilder: (context, index) {
-            final message = snapshot.data![index];
+            final message =
+                snapshot.data?[index] ?? chatController.messages[index];
             return Padding(
               padding: EdgeInsets.only(bottom: 16),
               child: messageBox(message),
@@ -150,65 +153,66 @@ class CTAChatPage extends StatelessWidget {
     ];
   }
 
-  Widget formatAIResponse(String text, {Color? textColor, double fontSize = 10}) {
-  List<TextSpan> spans = [];
-  List<String> parts = text.split(RegExp(r'(\*\*\*.*?\*\*\*|\*\*.*?\*\*|\*.*?\*)'));
-  
-  for (int i = 0; i < parts.length; i++) {
-    String part = parts[i];
-    
-    if (part.startsWith('***') && part.endsWith('***')) {
-      // Bold and italic (though we'll just make it bold)
-      spans.add(TextSpan(
-        text: part.substring(3, part.length - 3),
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: fontSize,
-          color: textColor ?? Colors.white,
-        ),
-      ));
-    } else if (part.startsWith('**') && part.endsWith('**')) {
-      // Bold
-      spans.add(TextSpan(
-        text: part.substring(2, part.length - 2),
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: fontSize,
-          color: textColor ?? Colors.white,
-        ),
-      ));
-    } else if (part.startsWith('*') && part.endsWith('*')) {
-      // Italic (we'll make it slightly emphasized)
-      spans.add(TextSpan(
-        text: part.substring(1, part.length - 1),
-        style: TextStyle(
-          fontStyle: FontStyle.italic,
-          fontWeight: FontWeight.w500,
-          fontSize: fontSize,
-          color: textColor ?? Colors.white,
-        ),
-      ));
-    } else {
-      // Regular text
-      if (part.isNotEmpty) {
+  Widget formatAIResponse(String text,
+      {Color? textColor, double fontSize = 10}) {
+    List<TextSpan> spans = [];
+    List<String> parts =
+        text.split(RegExp(r'(\*\*\*.*?\*\*\*|\*\*.*?\*\*|\*.*?\*)'));
+
+    for (int i = 0; i < parts.length; i++) {
+      String part = parts[i];
+
+      if (part.startsWith('***') && part.endsWith('***')) {
+        // Bold and italic (though we'll just make it bold)
         spans.add(TextSpan(
-          text: part,
+          text: part.substring(3, part.length - 3),
           style: TextStyle(
+            fontWeight: FontWeight.bold,
             fontSize: fontSize,
             color: textColor ?? Colors.white,
-            fontWeight: FontWeight.w300,
           ),
         ));
+      } else if (part.startsWith('**') && part.endsWith('**')) {
+        // Bold
+        spans.add(TextSpan(
+          text: part.substring(2, part.length - 2),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: fontSize,
+            color: textColor ?? Colors.white,
+          ),
+        ));
+      } else if (part.startsWith('*') && part.endsWith('*')) {
+        // Italic (we'll make it slightly emphasized)
+        spans.add(TextSpan(
+          text: part.substring(1, part.length - 1),
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w500,
+            fontSize: fontSize,
+            color: textColor ?? Colors.white,
+          ),
+        ));
+      } else {
+        // Regular text
+        if (part.isNotEmpty) {
+          spans.add(TextSpan(
+            text: part,
+            style: TextStyle(
+              fontSize: fontSize,
+              color: textColor ?? Colors.white,
+              fontWeight: FontWeight.w300,
+            ),
+          ));
+        }
       }
     }
-  }
-  
-  return RichText(
-    text: TextSpan(children: spans),
-    textAlign: TextAlign.left,
-  );
-}
 
+    return RichText(
+      text: TextSpan(children: spans),
+      textAlign: TextAlign.left,
+    );
+  }
 
   chatBox() {
     return Container(
@@ -279,103 +283,102 @@ class CTAChatPage extends StatelessWidget {
     );
   }
 
-Widget messageBox(ChatMessage message) {
-  if (message.isLoading) {
-    return Row(
-      children: [
-        Image.asset(
-          Assets.aichat,
-          width: 40,
-        ),
-        SizedBox(width: 8),
-        Expanded(
-          child: CurvedContainer(
-            color: AppColors.accentColor.withOpacity(0.08),
-            padding: EdgeInsets.all(16),
-            radius: 16,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: AppColors.primaryColor,
+  Widget messageBox(ChatMessage message) {
+    if (message.isLoading) {
+      return Row(
+        children: [
+          Image.asset(
+            Assets.aichat,
+            width: 40,
+          ),
+          SizedBox(width: 8),
+          Expanded(
+            child: CurvedContainer(
+              color: AppColors.accentColor.withOpacity(0.08),
+              padding: EdgeInsets.all(16),
+              radius: 16,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
+                  SizedBox(width: 8),
+                  AppText.thin("Thinking...", fontSize: 12),
+                ],
+              ),
+            ),
+          ),
+          Spacer(),
+        ],
+      );
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        if (message.isUser) Spacer(),
+        if (!message.isUser)
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0, bottom: 4),
+            child: Image.asset(
+              Assets.aichat,
+              width: 40,
+            ),
+          ),
+        Expanded(
+          flex: 3,
+          child: CurvedContainer(
+            color: message.isUser
+                ? AppColors.primaryColor
+                : AppColors.lightTextColor,
+            padding: EdgeInsets.all(8),
+            radius: 16,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+              bottomLeft: !message.isUser ? Radius.zero : Radius.circular(20),
+              bottomRight: message.isUser ? Radius.zero : Radius.circular(20),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText.thin(
+                  message.text,
+                  fontSize: 12,
+                  color: AppColors.white,
                 ),
-                SizedBox(width: 8),
-                AppText.thin("Thinking...", fontSize: 12),
+                if (message.text.contains("Mayowa"))
+                  AppButton(
+                      onPressed: () {
+                        Get.to(DoctorDetailPage());
+                      },
+                      child: AppText.medium("Book Appointment",
+                          fontSize: 12, color: AppColors.white))
               ],
             ),
           ),
         ),
-        Spacer(),
+        if (!message.isUser) Spacer(),
+        if (message.isUser)
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 4),
+            child: CurvedImage(
+              Assets.defDoctor,
+              h: 40,
+              w: 40,
+              radius: 20,
+              fit: BoxFit.cover,
+            ),
+          )
       ],
     );
   }
-
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.end,
-    children: [
-      if (message.isUser) Spacer(),
-      if (!message.isUser)
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0, bottom: 4),
-          child: Image.asset(
-            Assets.aichat,
-            width: 40,
-          ),
-        ),
-      Expanded(
-        flex: 3,
-        child: CurvedContainer(
-          color: message.isUser
-              ? AppColors.primaryColor
-              : AppColors.lightTextColor,
-          padding: EdgeInsets.all(8),
-          radius: 16,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-            bottomLeft: !message.isUser ? Radius.zero : Radius.circular(20),
-            bottomRight: message.isUser ? Radius.zero : Radius.circular(20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Use formatted response for AI, regular text for user
-              message.isUser
-                  ? AppText.thin(
-                      message.text,
-                      fontSize: 12,
-                      color: AppColors.white,
-                    )
-                  : formatAIResponse(
-                      message.text,
-                      textColor: AppColors.white,
-                      fontSize: 12,
-                    ),
-            ],
-          ),
-        ),
-      ),
-      if (!message.isUser) Spacer(),
-      if (message.isUser)
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0, bottom: 4),
-          child: CurvedImage(
-            Assets.defDoctor,
-            h: 40,
-            w: 40,
-            radius: 20,
-            fit: BoxFit.cover,
-          ),
-        )
-    ],
-  );
-}
-
 
   // String _formatTime(DateTime dateTime) {
   //   return "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";

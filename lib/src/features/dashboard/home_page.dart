@@ -20,8 +20,7 @@ class AppHomePage extends StatefulWidget {
 }
 
 class _AppHomePageState extends State<AppHomePage> {
-  // final controller = Get.find<DashboardController>();
-  final RxBool isUpcoming = false.obs;
+  final controller = Get.find<DashboardController>();
 
   @override
   void initState() {
@@ -46,7 +45,7 @@ class _AppHomePageState extends State<AppHomePage> {
                   () {},
                 ),
                 Ui.boxHeight(24),
-                SugSpecialistWidget(isUpcoming),
+                SugSpecialistWidget(controller.isUpcoming),
                 Ui.boxHeight(24),
                 CategoryRowWidget(),
                 Ui.boxHeight(24),
@@ -77,16 +76,16 @@ class TipsWidget extends StatelessWidget {
             color: AppColors.lightTextColor.withOpacity(0.1),
             padding: EdgeInsets.all(12),
             // height: 132,
-            width: Ui.width(context)-48,
+            width: Ui.width(context) - 48,
             radius: 18,
-            margin: EdgeInsets.symmetric(vertical: 6,horizontal: 0),
+            margin: EdgeInsets.symmetric(vertical: 6, horizontal: 0),
             child: Row(
               children: [
                 SizedBox(
                   width: 84,
                   height: 84,
                   child: CurvedImage(
-                  Assets.defHealth,
+                    Assets.defHealth,
                     w: 84,
                     h: 84,
                     fit: BoxFit.cover,
@@ -101,7 +100,9 @@ class TipsWidget extends StatelessWidget {
                       AppText.bold("Benefits of sleeping early"),
                       Ui.boxHeight(8),
                       AppText.thin(
-                          "Here are 10 reasons why you need to sleep early at night",fontSize: 12,maxlines: 2)
+                          "Here are 10 reasons why you need to sleep early at night",
+                          fontSize: 12,
+                          maxlines: 2)
                     ],
                   ),
                 )
@@ -119,6 +120,7 @@ class SugSpecialistWidget extends StatelessWidget {
   final RxBool isUpcoming;
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<DashboardController>();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -155,7 +157,7 @@ class SugSpecialistWidget extends StatelessWidget {
                               size: 18,
                             ),
                             Ui.boxWidth(8),
-                            AppText.thin("Monday, 14 December",
+                            AppText.thin("${controller.myBookings.last.day}, ${controller.myBookings.last.date} December",
                                 fontSize: 12, color: AppColors.white),
                             const Spacer(),
                             AppIcon(
@@ -164,7 +166,7 @@ class SugSpecialistWidget extends StatelessWidget {
                               size: 18,
                             ),
                             Ui.boxWidth(8),
-                            AppText.thin("09:00-12:00",
+                            AppText.thin(controller.myBookings.last.time,
                                 color: AppColors.white, fontSize: 12),
                           ],
                         ),
@@ -174,7 +176,8 @@ class SugSpecialistWidget extends StatelessWidget {
                           width: Ui.width(context) / 2,
                           child: AppButton(
                             onPressed: () {
-                              isUpcoming.value = !isUpcoming.value;
+                              Get.to(DoctorDetailPage());
+                              // isUpcoming.value = !isUpcoming.value;
                             },
                             text: "Book Appointment",
                             color: AppColors.white,
@@ -219,7 +222,7 @@ class MeetSpecialistWidget extends StatelessWidget {
           child: Row(
             children: List.generate(5, (i) {
               return InkWell(
-                onTap: (){
+                onTap: () {
                   Get.to(DoctorsPage());
                 },
                 child: SizedBox(
@@ -229,7 +232,8 @@ class MeetSpecialistWidget extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 25,
-                        backgroundColor: AppColors.accentColor.withOpacity(0.08),
+                        backgroundColor:
+                            AppColors.accentColor.withOpacity(0.08),
                         child: AppIcon(
                           icons[i],
                           color: AppColors.accentColor,
