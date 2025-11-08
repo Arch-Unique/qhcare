@@ -373,6 +373,7 @@ class CTAChatPage extends StatelessWidget {
               h: 40,
               w: 40,
               radius: 20,
+              
               fit: BoxFit.cover,
             ),
           )
