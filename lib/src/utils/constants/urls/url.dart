@@ -1,6 +1,6 @@
 abstract class AppUrls {
   static const String baseURL =
-      'http://localhost:3000';
+      'http://archyuniq.com:3131';
 
   //auth repo
   static const String login = "/login";

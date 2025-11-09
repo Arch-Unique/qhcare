@@ -230,7 +230,7 @@ app.get("/health", (c) => {
   return c.json({ status: "OK", timestamp: new Date().toISOString() });
 });
 
-const port = 3000;
+const port = 3131;
 
 console.log(`🚀 Doctor Booking API server starting on port ${port}...`);
 console.log(`📋 Available endpoints:`);
