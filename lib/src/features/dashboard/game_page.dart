@@ -117,7 +117,8 @@ class DoctorsPage extends StatelessWidget {
 }
 
 class DoctorDetailPage extends StatelessWidget {
-  const DoctorDetailPage({super.key});
+  const DoctorDetailPage({this.isUrgent=false, super.key});
+  final bool isUrgent;
 
   @override
   Widget build(BuildContext context) {
@@ -264,6 +265,7 @@ class DoctorDetailPage extends StatelessWidget {
                             day: days[curDay.value],
                             time: times[curTime.value],
                             date: 14 + curDay.value,
+                            isEmergency: isUrgent,
                           ));
                           await controller.appRepo
                               .bookDoctor(controller.myBookings.last);

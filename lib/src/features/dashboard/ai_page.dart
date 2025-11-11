@@ -356,7 +356,7 @@ class CTAChatPage extends StatelessWidget {
                 if (message.text.contains("Mayowa"))
                   AppButton(
                       onPressed: () {
-                        Get.to(DoctorDetailPage());
+                        Get.to(DoctorDetailPage(isUrgent: true));
                       },
                       child: AppText.medium("Book Appointment",
                           fontSize: 12, color: AppColors.white))
